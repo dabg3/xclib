@@ -2,9 +2,13 @@
  * Convert int into a string.
  *
  * @param n Value to be converted to a string
+ *
  * @param buffer Array where the conversion result is stored
+ * 
  * @param radix Number of unique digits used to represent `n` as a string
- * @return pointer to array containing the result, same as `buffer`
+ *
+ * @return pointer to array containing the result, same as `buffer`.
+ * 	When passed a non-valid radix argument, function will return NULL and set errno to EINVAL
  */
 char * xitoa(int n, char *buffer, int radix);
 
