@@ -16,6 +16,6 @@ int xatoi(const char *str) {
 
 int xstrlen(const char *str) {
 	int c = 0;
-	for(c = 0; *str != '\0' || *str != EOF; c++) {}
+	for(; *str; ++str, ++c) {}
 	return c;
 }

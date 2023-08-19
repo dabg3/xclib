@@ -1,5 +1,6 @@
 #include "CUnit/Basic.h"
 #include <errno.h>
+#include <string.h>
 #include "xlib.h"
 
 /* The suite initialization function.
@@ -18,8 +19,20 @@ int clean_suite(void)
 	return 0;
 }
 
-void testxitoa_invalidRadix_retNULLerrnoEINVAL(void) {
-	char str[] = {'\0'};
+void testxstrlen_validString(void) {
+	char str[] = "abc";
+	int res = xstrlen(str);
+	CU_ASSERT(res == 3);
+}
+
+void testxstrlen_emptyString(void) {
+	char str[] = "";
+	int res = xstrlen(str);
+	CU_ASSERT(res == 0);
+}
+
+void testxitoa_invalidRadix(void) {
+	char str[16];
 	int radix = 0;
 	char *res = xitoa(1, str, radix);
 	CU_ASSERT_FALSE(res);
@@ -31,7 +44,14 @@ void testxitoa_invalidRadix_retNULLerrnoEINVAL(void) {
 	CU_ASSERT(errno == EINVAL);
 }
 
-int main()
+void testxitoa_base2(void) {
+	char str[16];
+	char expected[] = "1010";
+	char *res = xitoa(10, str, 2);
+	CU_ASSERT(strcmp(res, expected) == 0);
+}
+
+int main(void)
 {
 	CU_pSuite pSuite = NULL;
 
@@ -50,10 +70,10 @@ int main()
 	/* add the tests to the suite */
 	/* NOTE - ORDER IS IMPORTANT */
 	if (
-		(NULL == CU_add_test(
-			pSuite, 
-			"xitoa invalid radix", 
-			testxitoa_invalidRadix_retNULLerrnoEINVAL))
+		(NULL == CU_add_test(pSuite, "xstrlen valid string", testxstrlen_validString)) ||
+		(NULL == CU_add_test(pSuite, "xstrlen empty string", testxstrlen_emptyString)) ||
+		(NULL == CU_add_test(pSuite, "xitoa invalid radix", testxitoa_invalidRadix)) ||
+		(NULL == CU_add_test(pSuite, "xitoa base 2", testxitoa_base2))
 	) {
 		CU_cleanup_registry();
 		return CU_get_error();
