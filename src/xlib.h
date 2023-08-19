@@ -36,3 +36,12 @@ int xatoi(const char *str);
  * @return length of the string
  */
 int xstrlen(const char *str);
+
+/**
+ * reverse a string.
+ *
+ * @param str String to be reversed
+ *
+ * @return pointer to array containing the reversed string
+ */
+char * xstrrev(char *str);

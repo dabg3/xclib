@@ -8,6 +8,15 @@ char * xitoa(int n, char *buffer, int radix) {
 		errno = EINVAL;
 		return NULL;
 	}
+
+char * xstrrev(char *str) {
+	int len = xstrlen(str);
+	for(int i = 0; i < len / 2; i++) {
+		char tmp = str[i]; 
+		str[i] = str[len - i - 1];
+		str[len - i - 1] = tmp;
+	}
+	return str;
 }
 
 int xatoi(const char *str) {
