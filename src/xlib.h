@@ -12,15 +12,27 @@
  */
 char * xitoa(int n, char *buffer, int radix);
 
+/**
+ * convert a character string to a base-10 integer value.
+ *
+ * The atoi() function stops reading the input string at the first character that it cannot 
+ * recognize as part of a number. This character can be the null character that 
+ * ends the string.
+ *
+ * @params str String to be converted
+ *
+ * @return The converted value or 0 on error
+ */
 int xatoi(const char *str);
-
 
 /** 
  * calculate the length of a string.
  *
- * The strlen() function calculates the length of the string s, 
+ * The xstrlen() function calculates the length of the string str, 
  * excluding the terminating null byte
  *
- * @param 
+ * @param str 
+ * 
+ * @return length of the string
  */
 int xstrlen(const char *str);
