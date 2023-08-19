@@ -58,6 +58,21 @@ void testxitoa_base16(void) {
 	CU_ASSERT(strcmp(res, expected) == 0);
 }
 
+void testxitoa_base2neg(void) {
+	char str[32];
+	char expected[] = "11111000"; //two's complement (platform dependent)
+	char *res = xitoa(-8, str, 2);
+	int last8bit_offset = 32 - 8 - 1; //int(32 bit) - n_chars(8) - '\0'
+	CU_ASSERT(strcmp(res + last8bit_offset, expected) == 0);
+}
+
+void testxitoa_base16neg(void) {
+	char str[16];
+	char expected[] = "FFFFFFF8";
+	char *res = xitoa(-8, str, 16);
+	CU_ASSERT(strcmp(res, expected));
+}
+
 int main(void)
 {
 	CU_pSuite pSuite = NULL;
@@ -81,7 +96,9 @@ int main(void)
 		(NULL == CU_add_test(pSuite, "xstrlen empty string", testxstrlen_emptyString)) ||
 		(NULL == CU_add_test(pSuite, "xitoa invalid radix", testxitoa_invalidRadix)) ||
 		(NULL == CU_add_test(pSuite, "xitoa base 2", testxitoa_base2)) ||
-		(NULL == CU_add_test(pSuite, "xitoa base 16", testxitoa_base16))
+		(NULL == CU_add_test(pSuite, "xitoa base 2 negative", testxitoa_base2neg)) ||
+		(NULL == CU_add_test(pSuite, "xitoa base 16", testxitoa_base16)) ||
+		(NULL == CU_add_test(pSuite, "xitoa base 16 negative", testxitoa_base16neg))
 	) {
 		CU_cleanup_registry();
 		return CU_get_error();
