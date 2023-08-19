@@ -51,6 +51,13 @@ void testxitoa_base2(void) {
 	CU_ASSERT(strcmp(res, expected) == 0);
 }
 
+void testxitoa_base16(void) {
+	char str[16];
+	char expected[] = "a";
+	char *res = xitoa(10, str, 16);
+	CU_ASSERT(strcmp(res, expected) == 0);
+}
+
 int main(void)
 {
 	CU_pSuite pSuite = NULL;
@@ -73,7 +80,8 @@ int main(void)
 		(NULL == CU_add_test(pSuite, "xstrlen valid string", testxstrlen_validString)) ||
 		(NULL == CU_add_test(pSuite, "xstrlen empty string", testxstrlen_emptyString)) ||
 		(NULL == CU_add_test(pSuite, "xitoa invalid radix", testxitoa_invalidRadix)) ||
-		(NULL == CU_add_test(pSuite, "xitoa base 2", testxitoa_base2))
+		(NULL == CU_add_test(pSuite, "xitoa base 2", testxitoa_base2)) ||
+		(NULL == CU_add_test(pSuite, "xitoa base 16", testxitoa_base16))
 	) {
 		CU_cleanup_registry();
 		return CU_get_error();
