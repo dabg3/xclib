@@ -59,11 +59,17 @@ void testxitoa_base16(void) {
 }
 
 void testxitoa_base2neg(void) {
-	char str[32];
-	char expected[] = "11111000"; //two's complement (platform dependent)
+	char str[64];
+	char expected[] = "11111111111111111111111111111000"; //two's complement (platform dependent)
 	char *res = xitoa(-8, str, 2);
-	int last8bit_offset = 32 - 8 - 1; //int(32 bit) - n_chars(8) - '\0'
-	CU_ASSERT(strcmp(res + last8bit_offset, expected) == 0);
+	CU_ASSERT(strcmp(res, expected) == 0);
+}
+
+void testxitoa_base10neg(void) {
+	char str[64];
+	char expected[] = "-8"; //two's complement (platform dependent)
+	char *res = xitoa(-8, str, 10);
+	CU_ASSERT(strcmp(res, expected) == 0);
 }
 
 void testxitoa_base16neg(void) {
@@ -97,6 +103,7 @@ int main(void)
 		(NULL == CU_add_test(pSuite, "xitoa invalid radix", testxitoa_invalidRadix)) ||
 		(NULL == CU_add_test(pSuite, "xitoa base 2", testxitoa_base2)) ||
 		(NULL == CU_add_test(pSuite, "xitoa base 2 negative", testxitoa_base2neg)) ||
+		(NULL == CU_add_test(pSuite, "xitoa base 10 negative", testxitoa_base10neg)) ||
 		(NULL == CU_add_test(pSuite, "xitoa base 16", testxitoa_base16)) ||
 		(NULL == CU_add_test(pSuite, "xitoa base 16 negative", testxitoa_base16neg))
 	) {

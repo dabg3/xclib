@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include "xlib.h"
 
+//TODO: portability to platforms with int != 32 bit
+static const unsigned long twocomplement_signbit_mask = 0x80000000;
+
 char * xitoa(int n, char *buffer, int radix) {
 	if (radix < 2 || radix > 36) {
 		errno = EINVAL;
@@ -10,12 +13,22 @@ char * xitoa(int n, char *buffer, int radix) {
 	}
 	char alphabet[] = "0123456789abcdefghijklmnopqrstuvwxyz";
 	int digits = 0;
+	char prefix_sign = 0;
 	if (n < 0) {
-		n ^= 0x80000000;
+		n = radix == 10 ? n * -1 : n ^ twocomplement_signbit_mask; 
+		if (radix == 2) {
+			prefix_sign = '1';
+		} else if (radix == 10) {
+			prefix_sign = '-';
+		}
 	}
 	for (; n > 0; n /= radix) {
 		int rem = n % radix;
 		buffer[digits] = alphabet[rem];
+		digits++;
+	}
+	if (prefix_sign) {
+		*(buffer + digits) = prefix_sign;
 		digits++;
 	}
 	*(buffer + digits) = '\0';
