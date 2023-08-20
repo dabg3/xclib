@@ -11,19 +11,20 @@ char * xitoa(int n, char *buffer, int radix) {
 		errno = EINVAL;
 		return NULL;
 	}
+	if (n == 0) {
+		buffer = "0";
+		return buffer;
+	}
 	char alphabet[] = "0123456789abcdefghijklmnopqrstuvwxyz";
 	int digits = 0;
 	char prefix_sign = 0;
-	if (n < 0) {
-		n = radix == 10 ? n * -1 : n ^ twocomplement_signbit_mask; 
-		if (radix == 2) {
-			prefix_sign = '1';
-		} else if (radix == 10) {
-			prefix_sign = '-';
-		}
+	unsigned int un = n;
+	if (n < 0 && radix == 10) {
+		un = n * -1;
+		prefix_sign = '-';
 	}
-	for (; n > 0; n /= radix) {
-		int rem = n % radix;
+	for (; un > 0; un /= radix) {
+		int rem = un % radix;
 		buffer[digits] = alphabet[rem];
 		digits++;
 	}

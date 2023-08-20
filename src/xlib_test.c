@@ -62,21 +62,31 @@ void testxitoa_base2neg(void) {
 	char str[64];
 	char expected[] = "11111111111111111111111111111000"; //two's complement (platform dependent)
 	char *res = xitoa(-8, str, 2);
+	printf("%s\n", res);
 	CU_ASSERT(strcmp(res, expected) == 0);
 }
 
 void testxitoa_base10neg(void) {
 	char str[64];
-	char expected[] = "-8"; //two's complement (platform dependent)
+	char expected[] = "-8"; 
 	char *res = xitoa(-8, str, 10);
+	printf("%s\n", res);
 	CU_ASSERT(strcmp(res, expected) == 0);
 }
 
 void testxitoa_base16neg(void) {
 	char str[16];
-	char expected[] = "FFFFFFF8";
+	char expected[] = "fffffff8";
 	char *res = xitoa(-8, str, 16);
-	CU_ASSERT(strcmp(res, expected));
+	CU_ASSERT(strcmp(res, expected) == 0);
+}
+
+void testxitoa_input0base2(void) {
+	char str[32];
+	char expected[] = "0"; //is "00000000000000000000000000000000" (32) better?
+	char *res = xitoa(0, str, 2);
+	printf("%s\n", res);
+	CU_ASSERT(strcmp(res, expected) == 0);
 }
 
 int main(void)
@@ -102,6 +112,7 @@ int main(void)
 		(NULL == CU_add_test(pSuite, "xstrlen empty string", testxstrlen_emptyString)) ||
 		(NULL == CU_add_test(pSuite, "xitoa invalid radix", testxitoa_invalidRadix)) ||
 		(NULL == CU_add_test(pSuite, "xitoa base 2", testxitoa_base2)) ||
+		(NULL == CU_add_test(pSuite, "xitoa base 2 input 0", testxitoa_input0base2)) ||
 		(NULL == CU_add_test(pSuite, "xitoa base 2 negative", testxitoa_base2neg)) ||
 		(NULL == CU_add_test(pSuite, "xitoa base 10 negative", testxitoa_base10neg)) ||
 		(NULL == CU_add_test(pSuite, "xitoa base 16", testxitoa_base16)) ||
