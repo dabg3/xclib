@@ -6,6 +6,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdint.h>
+#include "xlib.h"
 
 /* Magic numbers for the algorithm */
 // 64-bit architecture

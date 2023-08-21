@@ -2,7 +2,6 @@
 #include <errno.h>
 #include <stdio.h>
 #include "xlib.h"
-#include <string.h>
 
 //TODO: portability to platforms with int != 32 bit
 static const unsigned long twocomplement_signbit_mask = 0x80000000;
@@ -53,16 +52,14 @@ int xatoi(const char *str) {
 }
 
 int xstrlen(const char *str) {
-	uintptr_t *strp = str;
-	long contains0 = 0;
+	uintptr_t *strp = (uintptr_t *)str;
+	long contains0;
 	for (;
 		(contains0 = (*strp - 0x0101010101010101) & ((~(*strp)) & 0x8080808080808080)) == 0; //TODO: portability
 		strp++ 
 	) {}
 	int skipped_bytes = ((uint64_t)strp - (uint64_t)str);
-	int lsb = ffsl(contains0);
-	int len = (lsb / 8) - 1 + skipped_bytes;
-	return len;
+	return __builtin_ffsl(contains0) / 8 + skipped_bytes - 1; //gcc dependent
 }
 
 int xstrlen0(const char *str) {

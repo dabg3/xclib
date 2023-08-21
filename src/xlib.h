@@ -38,7 +38,7 @@ int xatoi(const char *str);
  * @return Length of the string
  */
 int xstrlen(const char *str);
-int xstreln0(const char *str); //TMP
+int xstrlen0(const char *str); //TMP
 
 /**
  * reverse a string.
