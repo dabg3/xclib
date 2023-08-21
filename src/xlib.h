@@ -12,6 +12,8 @@
  */
 char * xitoa(int n, char *buffer, int radix);
 
+char * xltoa(long n, char *buffer, int radix);
+
 /**
  * convert a character string to a base-10 integer value.
  *
@@ -36,6 +38,7 @@ int xatoi(const char *str);
  * @return Length of the string
  */
 int xstrlen(const char *str);
+int xstreln0(const char *str); //TMP
 
 /**
  * reverse a string.
@@ -45,3 +48,4 @@ int xstrlen(const char *str);
  * @return Pointer to array containing the reversed string
  */
 char * xstrrev(char *str);
+
